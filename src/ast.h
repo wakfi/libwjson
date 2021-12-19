@@ -25,7 +25,6 @@ public:
   // top-level
   virtual void visit(JSON& node) = 0;
   virtual void visit(Record& node) = 0;
-  virtual void visit(RValue& node) = 0;
   virtual void visit(SimpleRValue& node) = 0;
   virtual void visit(Array& node) = 0;
 };
