@@ -79,7 +79,7 @@ class JSON : public RValue
     // cleanup memory
     ~JSON() {for (Record* d : records) delete d;}
     // return first token (first primitive value)
-    Token first_token() {return this->values.size() ? this->values.front()->first_token() : this->rbrace_token;}
+    Token first_token() {return this->records.size() ? this->records.front()->key : this->rbrace_token;}
     // visitor access
     void accept(Visitor& v) {v.visit(*this);}
 };
@@ -95,7 +95,7 @@ class Array : public RValue
     // list of elements
     std::list<RValue*> values;
     // cleanup memory
-    ~Array() {for (RValue* v : values) delete d;}
+    ~Array() {for (RValue* v : values) delete v;}
     // return first token (first primitive value)
     Token first_token() {return this->values.size() ? this->values.front()->first_token() : this->rbracket_token;}
     // visitor access
