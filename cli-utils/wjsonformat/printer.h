@@ -3,8 +3,10 @@
 
 #include <iostream>
 #include <string>
-#include "ast.h"
-#include "token.h"
+
+// libwjson core modules
+#include <core/token.h>
+#include <core/ast.h>
 
 
 class Printer : public Visitor

@@ -1,10 +1,13 @@
 #include <iostream>
 #include <fstream>
-#include "token.h"
-#include "json_exception.h"
-#include "lexer.h"
-#include "parser.h"
-#include "ast.h"
+
+// libwjson modules
+#include <core/token.h>
+#include <core/json_exception.h>
+#include <core/lexer.h>
+#include <core/parser.h>
+#include <core/ast.h>
+
 #include "printer.h"
 
 using namespace std;
