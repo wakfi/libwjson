@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
     Printer printer(cout);
     ast_root_node.accept(printer);
   } catch (JSONException e) {
-    cout << e.to_string() << endl;
+    cerr << e.to_string() << endl;
     exit(1);
   }
   // clean up the input stream
