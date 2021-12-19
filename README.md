@@ -4,6 +4,7 @@ Standalone C++ JSON parser core with additional JSON utilities built around it
 ### Layout
 - [`lib/core`](lib/core) - JSON Parser core. 
 - [`cli-utils`](cli-utils) - Command Line Interface Utility modules built using the `libwjson` parser
+- [`json.grammar`](json.grammar) - A JSON grammar description using Backus-Naur form
 
 ## License
 MIT License
