@@ -59,6 +59,8 @@ class Record : public ASTNode
   public:
     Token key;
     RValue* value;
+    // visitor access
+    void accept(Visitor& v) {v.visit(*this);}
 };
 
 
