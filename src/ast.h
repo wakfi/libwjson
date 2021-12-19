@@ -2,7 +2,7 @@
 #define AST_H
 
 #include <list>
-#include <token.h>
+#include "token.h"
 
 enum ValueType {
   STRING_TYPE, NUMBER_TYPE,
