@@ -43,7 +43,7 @@ private:
 // top-level
 void Printer::visit(JSON& node)
 {
-	out << get_indent() << "{\n";
+	out << "{\n";
 	inc_indent();
 	std::string maybeComma = "";
 	for(Record* record : node.records)
@@ -54,7 +54,7 @@ void Printer::visit(JSON& node)
 	}
 	dec_indent();
 	out << "\n" << get_indent() << "}";
-	out.flush();
+	if(!curr_indent) out << std::endl;
 }
 
 void Printer::visit(Record& node)
@@ -88,9 +88,9 @@ void Printer::visit(Array& node)
 	std::string maybeComma = "";
 	for(RValue* val : node.values)
 	{
-		out << maybeComma;
+		out << maybeComma << get_indent();
 		val->accept(*this);
-		maybeComma = ",\n" + get_indent();
+		maybeComma = ",\n";
 	}
 	dec_indent();
 	out << "\n" << get_indent() << "]";
