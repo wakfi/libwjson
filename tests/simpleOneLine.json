@@ -1,0 +1,1 @@
+{"configurations":[{"name":"config name","includePath":["{workspaceFolder}/**"],"defines":[],"frameworkPath":["/my/framework/path/is/very/long/nice/frameworks"],"compilerPath":"/usr/bin/compilername","cStandard":"c17","cppStandard":"c++17","intelliSenseMode":"os-compiler-arch"}],"version":4}
