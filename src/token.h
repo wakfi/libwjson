@@ -14,7 +14,7 @@ enum TokenType {
 	// primitive types
 	BOOL_TYPE, NUMBER_TYPE, STRING_TYPE,
 	// values
-	BOOL_VAL, NUMBER_VAL, STRING_VAL, ID,
+	BOOL_VAL, NUMBER_VAL, STRING_VAL,
 	// end-of-stream
 	EOS
 };
@@ -69,7 +69,7 @@ private:
 		{STRING_TYPE, "STRING_TYPE"},
 		// values
 		{BOOL_VAL, "BOOL_VAL"}, {NUMBER_VAL, "NUMBER_VAL"},
-		{STRING_VAL, "STRING_VAL"}, {ID, "ID"},
+		{STRING_VAL, "STRING_VAL"},
 		// eos
 		{EOS, "EOS"}
 	};
