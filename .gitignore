@@ -49,4 +49,6 @@ _deps
 
 .DS_Store
 .vscode
-jsonpretty
+
+// Compiled Code
+wjsonformat

@@ -25,8 +25,8 @@ int main(int argc, char* argv[])
   try {
     JSON ast_root_node;
     parser.parse(ast_root_node);
-    Printer pretty_printer(cout);
-    ast_root_node.accept(pretty_printer);
+    Printer printer(cout);
+    ast_root_node.accept(printer);
   } catch (JSONException e) {
     cout << e.to_string() << endl;
     exit(1);
