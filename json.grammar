@@ -1,0 +1,11 @@
+<json>     ::= LBRACE <records> RBRACE
+<records>  ::= <record> <recordst>
+<recordst> ::= COMMA <records> | ε
+<record>   ::= <kvalue> COLON <rvalue>
+<kvalue>   ::= STRING_VAL
+<rvalue>   ::= <literal> | <compound>
+<literal>  ::= STRING_VAL | NUMBER_VAL | BOOL_VAL
+<compound> ::= <array> | <json>
+<array>    ::= LBRACKET <vals> RBRACKET
+<vals>     ::= <rvalue> <valst>
+<valst>    ::= COMMA <vals> | ε
