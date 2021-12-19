@@ -75,7 +75,7 @@ bool isValidIdentifier(int c)
 	return c == '_' || isalnum(c);
 }
 
-bool skipNextChar(const char& c, bool& inComment)
+bool skipNextChar(const char& c)
 {
 	return isspace(c);
 }
@@ -85,7 +85,7 @@ Token Lexer::next_token()
     Token token;
 	char nextChar;
 	std::string lexeme = "";
-	while(skipNextChar(peek(), inComment))
+	while(skipNextChar(peek()))
 	{
 		nextChar = read();
 		if(nextChar == '\n')
@@ -183,3 +183,5 @@ Token Lexer::next_token()
     }
     return token;
 }
+
+#endif
