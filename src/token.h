@@ -11,8 +11,6 @@
 enum TokenType {
 	// basic symbols
 	COMMA, COLON, LBRACKET, RBRACKET, LBRACE, RBRACE,
-	// primitive types
-	BOOL_TYPE, NUMBER_TYPE, STRING_TYPE,
 	// values
 	BOOL_VAL, NUMBER_VAL, STRING_VAL,
 	// end-of-stream
@@ -64,9 +62,6 @@ private:
     { // basic symbols
         {COMMA, "COMMA"}, {COLON, "COLON"}, {LBRACKET, "LBRACKET"},
 		{RBRACKET, "RBRACKET"}, {LBRACE, "LBRACE"}, {RBRACE, "RBRACE"},
-		// primitive types
-		{BOOL_TYPE, "BOOL_TYPE"}, {NUMBER_TYPE, "NUMBER_TYPE"},
-		{STRING_TYPE, "STRING_TYPE"},
 		// values
 		{BOOL_VAL, "BOOL_VAL"}, {NUMBER_VAL, "NUMBER_VAL"},
 		{STRING_VAL, "STRING_VAL"},
