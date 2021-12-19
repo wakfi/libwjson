@@ -49,4 +49,4 @@ _deps
 
 .DS_Store
 .vscode
-prettyjson
+jsonpretty
