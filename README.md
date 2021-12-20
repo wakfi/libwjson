@@ -1,5 +1,5 @@
 # libwjson
-Standalone C++ JSON parser core with additional JSON utilities built around it
+Standalone JSON parsing library written in C++. Additional JSON utilities built around the parser included separately
 
 ### Layout
 - [`lib/core`](lib/core) - JSON Parser core. 
