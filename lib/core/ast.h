@@ -14,6 +14,7 @@ enum ValueType {
 //----------------------------------------------------------------------
 
 // declare to use in Visitor interface
+class JSONDocument;
 class Record;
 class RValue;
 class SimpleRValue;
@@ -24,6 +25,7 @@ class Visitor {
 public:
   // top-level
   virtual void visit(JSON& node) = 0;
+  virtual void visit(JSONDocument& node) = 0;
   virtual void visit(Record& node) = 0;
   virtual void visit(SimpleRValue& node) = 0;
   virtual void visit(Array& node) = 0;
@@ -59,6 +61,14 @@ class Record : public ASTNode
     Token key;
     RValue* value;
     // visitor access
+    void accept(Visitor& v) {v.visit(*this);}
+};
+
+// Document
+class JSONDocument : public ASTNode
+{
+  public:
+    RValue* root;
     void accept(Visitor& v) {v.visit(*this);}
 };
 

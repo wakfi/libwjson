@@ -14,7 +14,7 @@ public:
 	Parser(const Lexer& json_lexer);
 
 	// run the parser
-	void parse(JSON& document);
+	void parse(JSONDocument& doc);
 
 private:
 	Lexer lexer;
@@ -82,10 +82,10 @@ void Parser::base_error(std::string err_msg)
 
 // Recursive-decent functions
 
-void Parser::parse(JSON& document)
+void Parser::parse(JSONDocument& doc)
 {
 	advance();
-	this->json(document);
+	rvalue(doc.root);
 	eat(EOS, "Unexpected token: expected end-of-file, ");
 }
 

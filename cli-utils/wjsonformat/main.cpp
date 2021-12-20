@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 
   // read each token in the file until EOS or error
   try {
-    JSON ast_root_node;
+    JSONDocument ast_root_node;
     parser.parse(ast_root_node);
     Printer printer(cout);
     ast_root_node.accept(printer);

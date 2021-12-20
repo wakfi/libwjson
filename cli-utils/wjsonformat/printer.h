@@ -24,6 +24,7 @@ public:
 
 
 	// top-level
+	void visit(JSONDocument& node);
 	void visit(JSON& node);
 	void visit(Record& node);
 	void visit(RValue& node);
@@ -43,6 +44,12 @@ private:
 };
 
 // top-level
+void Printer::visit(JSONDocument& node)
+{
+	node.root->accept(*this);
+	out << std::endl;
+}
+
 void Printer::visit(JSON& node)
 {
 	if(!node.records.size())
@@ -63,7 +70,6 @@ void Printer::visit(JSON& node)
 	}
 	dec_indent();
 	out << "\n" << get_indent() << "}";
-	if(!curr_indent) out << std::endl;
 }
 
 void Printer::visit(Record& node)
