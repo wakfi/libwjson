@@ -46,8 +46,9 @@ JSONException::JSONException(ExceptionType t, const std::string& m)
 
 std::string JSONException::to_string() const
 {
-  std::string s = "Lexer";
+  std::string s;
   switch(type) {
+    case LEXER: s = "Lexer"; break;
     case SYNTAX: s = "Parser"; break;
     case SEMANTIC: s = "Type"; break;
   }
