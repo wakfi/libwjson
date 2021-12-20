@@ -152,8 +152,8 @@ void Parser::simple(SimpleRValue& node)
 	pval();
 	switch(node.value.type())
 	{
-		case BOOL_VAL:
-			node.type = BOOL_TYPE;
+		case LITERAL_VAL:
+			node.type = LITERAL_TYPE;
 			break;
 		case NUMBER_VAL:
 			node.type = NUMBER_TYPE;
@@ -212,7 +212,7 @@ void Parser::pval()
 {
 	switch(curr_token.type())
 	{
-		case BOOL_VAL:
+		case LITERAL_VAL:
 		case NUMBER_VAL:
 		case STRING_VAL:
 			advance();

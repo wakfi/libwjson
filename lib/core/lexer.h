@@ -29,6 +29,13 @@ class Lexer
 		// return a single character from the input stream and advance
 		char read();
 
+		// read the next n characters from the input stream and store them in buf.
+		// returns actual number of characters read
+		int read(char* buf, const int& n);
+
+		// read up to the next 4 characters as bytes and return as a 32-bit integer
+		unsigned int read_u32(const int& n);
+
 		// return a single character from the input stream without advancing
 		char peek();
 
@@ -52,6 +59,29 @@ char Lexer::read()
 	return input_stream.get();
 }
 
+int Lexer::read(char* buf, const int& n)
+{
+	input_stream.read(buf, n);
+	return input_stream.gcount();
+}
+
+unsigned int Lexer::read_u32(const int& n)
+{
+	unsigned int val = 0;
+	int len = n > 4 ? 4 : n;
+	switch(len) {
+		case 4:
+			val |= read() << 24;
+		case 3:
+			val |= read() << 16;
+		case 2:
+			val |= read() << 8;
+		case 1:
+			val |= read();
+	}
+	column += n;
+	return val;
+}
 
 char Lexer::peek()
 {
@@ -82,7 +112,7 @@ bool skipNextChar(const char& c)
 
 Token Lexer::next_token()
 {
-    Token token;
+	Token token;
 	char nextChar;
 	std::string lexeme = "";
 	while(skipNextChar(peek()))
@@ -101,87 +131,98 @@ Token Lexer::next_token()
 	nextChar = readNextChar();
 	lexeme += nextChar;
 	switch(nextChar) {
-        case EOF:
-            token = Token(EOS, "", startLine, startColumn);
-            break;
-        case '{':
-            token = Token(LBRACE, "{", startLine, startColumn);
-            break;
-        case '}':
-            token = Token(RBRACE, "}", startLine, startColumn);
-            break;
-        case '[':
-            token = Token(LBRACKET, "[", startLine, startColumn);
-            break;
-        case ']':
-            token = Token(RBRACKET, "]", startLine, startColumn);
-            break;
-        case ':':
-            token = Token(COLON, ":", startLine, startColumn);
-            break;
-        case ',':
-            token = Token(COMMA, ",", startLine, startColumn);
-            break;
-        case '"':
-            // string
-            lexeme = "";
-            while(peek() != '"')
-            {
-                nextChar = readNextChar();
-                if(nextChar == '\\') //handle escapes (primarily for quote escape)
-                {
-                    lexeme += nextChar;
-                    nextChar = readNextChar();
-                }
-                if(nextChar == EOF || nextChar == '\n')
-                {
-                    error("Invalid token '\"" + lexeme + "': string values require an opening and closing quotation mark,", startLine, startColumn);
-                }
-                lexeme += nextChar;
-            }
-            nextChar = readNextChar();
-            token = Token(STRING_VAL, lexeme, startLine, startColumn);
-            break;
-        default:
-            if(isdigit(nextChar)) {
-                while(isdigit(peek()))
-                {
-                    nextChar = readNextChar();
-                    lexeme += nextChar;
-                }
-                if(peek() == '.')
-                {
-                    // double literal
-                    nextChar = readNextChar();
-                    lexeme += nextChar;
-                    // need to finish reading numbers in
-                    if(!isdigit(peek()))
-                    {
-                        // no numbers after dot error
-                        error("Invalid token: '" + lexeme + "': double values must have at least one trailing digit,", startLine, startColumn);
-                    }
-                    while(isdigit(peek()))
-                    {
-                        nextChar = readNextChar();
-                        lexeme += nextChar;
-                    }
-                }
-                token = Token(NUMBER_VAL, lexeme, startLine, startColumn);
-            } else if(nextChar == 't') {
-                if(!(readNextChar() == 'r' && readNextChar() == 'u' && readNextChar() == 'e')) {
-                    error("Invalid token '\"" + lexeme + "'", startLine, startColumn);
-                }
-                token = Token(BOOL_VAL, "true", startLine, startColumn);
-            } else if(nextChar == 'f') {
-                if(!(readNextChar() == 'a' && readNextChar() == 'l' && readNextChar() == 's' && readNextChar() == 'e')) {
-                    error("Invalid token '\"" + lexeme + "'", startLine, startColumn);
-                }
-                token = Token(BOOL_VAL, "false", startLine, startColumn);
-            } else {
-                error("Invalid token '\"" + lexeme + "'", startLine, startColumn);
-            }
-    }
-    return token;
+		case EOF:
+			token = Token(EOS, "", startLine, startColumn);
+			break;
+		case '{':
+			token = Token(LBRACE, "{", startLine, startColumn);
+			break;
+		case '}':
+			token = Token(RBRACE, "}", startLine, startColumn);
+			break;
+		case '[':
+			token = Token(LBRACKET, "[", startLine, startColumn);
+			break;
+		case ']':
+			token = Token(RBRACKET, "]", startLine, startColumn);
+			break;
+		case ':':
+			token = Token(COLON, ":", startLine, startColumn);
+			break;
+		case ',':
+			token = Token(COMMA, ",", startLine, startColumn);
+			break;
+		case '"':
+			// string
+			lexeme = "";
+			while(peek() != '"')
+			{
+				nextChar = readNextChar();
+				if(nextChar == '\\') //handle escapes (primarily for quote escape)
+				{
+					lexeme += nextChar;
+					nextChar = readNextChar();
+				}
+				if(nextChar == EOF || nextChar == '\n')
+				{
+					error("Invalid token '\"" + lexeme + "': string values require an opening and closing quotation mark,", startLine, startColumn);
+				}
+				lexeme += nextChar;
+			}
+			nextChar = readNextChar();
+			token = Token(STRING_VAL, lexeme, startLine, startColumn);
+			break;
+		default:
+			if(isdigit(nextChar)) {
+				while(isdigit(peek()))
+				{
+					nextChar = readNextChar();
+					lexeme += nextChar;
+				}
+				if(peek() == '.')
+				{
+					// double literal
+					nextChar = readNextChar();
+					lexeme += nextChar;
+					// need to finish reading numbers in
+					if(!isdigit(peek()))
+					{
+						// no numbers after dot error
+						error("Invalid token: '" + lexeme + "': double values must have at least one trailing digit,", startLine, startColumn);
+					}
+					while(isdigit(peek()))
+					{
+						nextChar = readNextChar();
+						lexeme += nextChar;
+					}
+				}
+				token = Token(NUMBER_VAL, lexeme, startLine, startColumn);
+			} else if(nextChar == 't') {
+				const unsigned int MAGIC_NUMBER = 0x727565;
+				unsigned int buf = read_u32(3);
+				if(~(buf ^~ MAGIC_NUMBER)) {
+					error("Invalid token '\"" + lexeme + "'", startLine, startColumn);
+				}
+				token = Token(LITERAL_VAL, "true", startLine, startColumn);
+			} else if(nextChar == 'f') {
+				const unsigned int MAGIC_NUMBER = 0x616c7365;
+				unsigned int buf = read_u32(4);
+				if(~(buf ^~ MAGIC_NUMBER)) {
+					error("Invalid token '\"" + lexeme + "'", startLine, startColumn);
+				}
+				token = Token(LITERAL_VAL, "false", startLine, startColumn);
+			} else if(nextChar == 'n') {
+				const unsigned int MAGIC_NUMBER = 0x756c6c;
+				unsigned int buf = read_u32(3);
+				if(~(buf ^~ MAGIC_NUMBER)) {
+					error("Invalid token '\"" + lexeme + "'", startLine, startColumn);
+				}
+				token = Token(LITERAL_VAL, "null", startLine, startColumn);
+			} else {
+				error("Invalid token '\"" + lexeme + "'", startLine, startColumn);
+			}
+	}
+	return token;
 }
 
 #endif

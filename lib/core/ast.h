@@ -6,7 +6,7 @@
 
 enum ValueType {
   STRING_TYPE, NUMBER_TYPE,
-  BOOL_TYPE, ARRAY_TYPE, JSON_TYPE
+  LITERAL_TYPE, ARRAY_TYPE, JSON_TYPE
 };
 
 //----------------------------------------------------------------------

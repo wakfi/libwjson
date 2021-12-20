@@ -12,7 +12,7 @@ enum TokenType {
 	// basic symbols
 	COMMA, COLON, LBRACKET, RBRACKET, LBRACE, RBRACE,
 	// values
-	BOOL_VAL, NUMBER_VAL, STRING_VAL,
+	LITERAL_VAL, NUMBER_VAL, STRING_VAL,
 	// end-of-stream
 	EOS
 };
@@ -63,7 +63,7 @@ private:
         {COMMA, "COMMA"}, {COLON, "COLON"}, {LBRACKET, "LBRACKET"},
 		{RBRACKET, "RBRACKET"}, {LBRACE, "LBRACE"}, {RBRACE, "RBRACE"},
 		// values
-		{BOOL_VAL, "BOOL_VAL"}, {NUMBER_VAL, "NUMBER_VAL"},
+		{LITERAL_VAL, "LITERAL_VAL"}, {NUMBER_VAL, "NUMBER_VAL"},
 		{STRING_VAL, "STRING_VAL"},
 		// eos
 		{EOS, "EOS"}

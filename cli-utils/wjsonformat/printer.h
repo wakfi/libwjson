@@ -71,7 +71,7 @@ void Printer::visit(SimpleRValue& node)
 {
 	switch(node.type)
 	{
-		case BOOL_TYPE:
+		case LITERAL_TYPE:
 		case NUMBER_TYPE:
 			out << node.value.lexeme();
 			break;
