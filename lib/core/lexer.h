@@ -7,6 +7,7 @@
 #include "token.h"
 #include "json_exception.h"
 
+#include <iostream>
 
 class Lexer
 {
@@ -173,7 +174,20 @@ Token Lexer::next_token()
 			token = Token(STRING_VAL, lexeme, startLine, startColumn);
 			break;
 		default:
-			if(isdigit(nextChar)) {
+			if(isdigit(nextChar) || nextChar == '-')
+			{
+				if(nextChar == '-')
+				{
+					nextChar = readNextChar();
+					lexeme += nextChar;
+					if(!isdigit(nextChar)) {
+						error("Invalid token,", startLine, startColumn);
+					}
+				}
+				bool leadingZero = nextChar == '0';
+				if(leadingZero && peek() == '0') {
+					error("Invalid token: leading 0's are not allowed,", startLine, startColumn);
+				}
 				while(isdigit(peek()))
 				{
 					nextChar = readNextChar();
@@ -190,6 +204,27 @@ Token Lexer::next_token()
 						// no numbers after dot error
 						error("Invalid token: '" + lexeme + "': double values must have at least one trailing digit,", startLine, startColumn);
 					}
+					while(isdigit(peek()))
+					{
+						nextChar = readNextChar();
+						lexeme += nextChar;
+					}
+				}
+				if(peek() == 'e' || peek() == 'E')
+				{
+					nextChar = readNextChar();
+					lexeme += nextChar;
+					nextChar = readNextChar();
+					if(nextChar == '-' || nextChar == '+')
+					{
+						lexeme += nextChar;
+						nextChar = readNextChar();
+					}
+					if(!isdigit(nextChar))
+					{
+						error("Invalid token: '" + lexeme + "':", startLine, startColumn);
+					}
+					lexeme += nextChar;
 					while(isdigit(peek()))
 					{
 						nextChar = readNextChar();
