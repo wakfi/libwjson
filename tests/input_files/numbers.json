@@ -1,0 +1,7 @@
+{"int":3,"another int":103,"negative":-20,"decimal":1.3,"leading 0 decimal":0.5,
+    "negative decimal":-51.92,"negative leading 0 decimal":-0.336,"exp":1e4,"big exp"
+    :2e21,"bigger exp":11e3,"negative exp":
+-4e5,"exp with plus":81e+1,"exp with 0":51e0,
+
+"exp with minus":37e-3,"negative exp with plus":-81e+1,"negative exp with minus":-23e-6
+,"exp with frac and exp":51.53e29}
