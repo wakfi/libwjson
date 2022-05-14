@@ -24,11 +24,11 @@ class Array;
 class Visitor {
 public:
   // top-level
-  virtual void visit(JSON& node) = 0;
-  virtual void visit(JSONDocument& node) = 0;
-  virtual void visit(Record& node) = 0;
-  virtual void visit(SimpleRValue& node) = 0;
-  virtual void visit(Array& node) = 0;
+  virtual void visit(JSON&) = 0;
+  virtual void visit(JSONDocument&) = 0;
+  virtual void visit(Record&) = 0;
+  virtual void visit(SimpleRValue&) = 0;
+  virtual void visit(Array&) = 0;
 };
 
 
@@ -41,7 +41,7 @@ class ASTNode
 {
   public:
     virtual ~ASTNode() {};
-    virtual void accept(Visitor& v) = 0;
+    virtual void accept(Visitor&) = 0;
 };
 
 
@@ -61,7 +61,7 @@ class Record : public ASTNode
     Token key;
     RValue* value;
     // visitor access
-    void accept(Visitor& v) {v.visit(*this);}
+    void accept(Visitor&);
 };
 
 // Document
@@ -69,7 +69,7 @@ class JSONDocument : public ASTNode
 {
   public:
     RValue* root;
-    void accept(Visitor& v) {v.visit(*this);}
+    void accept(Visitor&);
 };
 
 
@@ -88,11 +88,11 @@ class JSON : public RValue
     //  list of declarations
     std::list<Record*> records;
     // cleanup memory
-    ~JSON() {for (Record* d : records) delete d;}
+    ~JSON();
     // return first token (first primitive value)
-    Token first_token() {return this->records.size() ? this->records.front()->key : this->rbrace_token;}
+    Token first_token();
     // visitor access
-    void accept(Visitor& v) {v.visit(*this);}
+    void accept(Visitor&);
 };
 
 
@@ -106,11 +106,11 @@ class Array : public RValue
     // list of elements
     std::list<RValue*> values;
     // cleanup memory
-    ~Array() {for (RValue* v : values) delete v;}
+    ~Array();
     // return first token (first primitive value)
-    Token first_token() {return this->values.size() ? this->values.front()->first_token() : this->rbracket_token;}
+    Token first_token();
     // visitor access
-    void accept(Visitor& v) {v.visit(*this);}
+    void accept(Visitor&);
 };
 
 
@@ -120,10 +120,10 @@ class SimpleRValue : public RValue
     // primitive value
     Token value;
     // return first token
-    Token first_token() {return value;}
+    Token first_token();
     // visitor access
-    void accept(Visitor& v) {v.visit(*this);}
+    void accept(Visitor&);
 };
 
 
-#endif
+#endif // ifndef AST_H
