@@ -8,6 +8,7 @@ set(CMAKE_BUILD_TYPE Debug)
 
 # add libwjson directory to include path
 include_directories(AFTER ../lib)
+include_directories(AFTER ../cli-utils)
 
 # locate gtest
 find_package(GTest REQUIRED)
