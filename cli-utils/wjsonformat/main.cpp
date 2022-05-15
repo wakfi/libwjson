@@ -2,11 +2,11 @@
 #include <fstream>
 
 // libwjson modules
-#include <core/token.h>
-#include <core/json_exception.h>
-#include <core/lexer.h>
-#include <core/parser.h>
-#include <core/ast.h>
+#include <core/token.cpp>
+#include <core/json_exception.cpp>
+#include <core/lexer.cpp>
+#include <core/parser.cpp>
+#include <core/ast.cpp>
 
 #include "printer.h"
 
