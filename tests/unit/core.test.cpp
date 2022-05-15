@@ -117,6 +117,8 @@ TEST(WJSON_COR, SimpleOneLine) {
     TEST_AGAINST_PRINTER("{\"configurations\":[{\"name\":\"config name\",\"includePath\":[\"{workspaceFolder}/**\"],\"defines\":[],\"frameworkPath\":[\"/my/framework/path/is/very/long/nice/frameworks\"],\"compilerPath\":\"/usr/bin/compilername\",\"cStandard\":\"c17\",\"cppStandard\":\"c++17\",\"intelliSenseMode\":\"os-compiler-arch\",\"i need another key\":true,\"again\":null},false],\"empty object\":{},\"version\":4}");
 }
 
+// TODO: Add a test(s) that actually looks through the lexemes of something non-trivial
+
 
 
 // Main
