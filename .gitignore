@@ -53,3 +53,4 @@ _deps
 // Compiled Code
 wjsonformat
 !wjsonformat/
+wjson_core_test
