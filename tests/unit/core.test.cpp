@@ -110,6 +110,13 @@ TEST(WJSON_CORE, NumbersMisc) {
     TEST_AGAINST_PRINTER("{\"int\":3,\"another int\":103,\"negative\":-20,\"decimal\":1.3,\"leading 0 decimal\":0.5,\"negative decimal\":-51.92,\"negative leading 0 decimal\":-0.336,\"exp\":1e4,\"big exp\":2e21,\"bigger exp\":11e3,\"negative exp\":-4e5,\"exp with plus\":81e+1,\"exp with 0\":51e0,\"exp with minus\":37e-3,\"negative exp with plus\":-81e+1,\"negative exp with minus\":-23e-6,\"exp with frac and exp\":51.53e29}");
 }
 
+TEST(WJSON_COR, SimpleOneLine) {
+    // simpleOneLine.json is a single line JSON object with a useful range of value types represented,
+    // including arrays and null. It's actually already in the minimalist format our printer outputs
+    INPUT(simpleOneLine.json);
+    TEST_AGAINST_PRINTER("{\"configurations\":[{\"name\":\"config name\",\"includePath\":[\"{workspaceFolder}/**\"],\"defines\":[],\"frameworkPath\":[\"/my/framework/path/is/very/long/nice/frameworks\"],\"compilerPath\":\"/usr/bin/compilername\",\"cStandard\":\"c17\",\"cppStandard\":\"c++17\",\"intelliSenseMode\":\"os-compiler-arch\",\"i need another key\":true,\"again\":null},false],\"empty object\":{},\"version\":4}");
+}
+
 
 
 // Main
