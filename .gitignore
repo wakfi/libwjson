@@ -54,3 +54,4 @@ _deps
 wjsonformat
 !wjsonformat/
 wjson_core_test
+wjsoncompact

@@ -8,7 +8,7 @@
 #include <core/parser.cpp>
 #include <core/ast.cpp>
 
-#include "printer.h"
+#include "wjsoncompact.cpp"
 
 using namespace std;
 
