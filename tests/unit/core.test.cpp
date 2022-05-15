@@ -14,12 +14,14 @@
 #include <gtest/gtest.h>
 
 //----------------------------------------------------------------------
-// Constants
+// Constants & Macros
 //----------------------------------------------------------------------
 
 #define TEST_FILES_DIR_PATH input_files
 #define TEST_FILE(file_name) GTEST_STRINGIFY_(TEST_FILES_DIR_PATH/file_name)
 #define TEST_SPEC_FILE(file_name) GTEST_STRINGIFY_(TEST_FILES_DIR_PATH/rfc8259_examples/file_name)
+#define INPUT(file_name) ifstream input(TEST_SPEC_FILE(file_name));\
+EXPECT_EQ(false, input.fail());
 
 //----------------------------------------------------------------------
 // libwjson/core Tests
@@ -28,12 +30,11 @@
 using namespace std;
 
 TEST(WJSON_CORE, Literal) {
-    ifstream input_stream(TEST_SPEC_FILE(literal.json));
-    EXPECT_EQ(false, input_stream.fail());
+    INPUT(literal.json);
 
     try {
         // create the lexer & parser
-        Lexer lexer(input_stream);
+        Lexer lexer(input);
         Parser parser(lexer);
         JSONDocument ast_root_node;
         parser.parse(ast_root_node);
