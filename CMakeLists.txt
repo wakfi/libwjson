@@ -12,3 +12,4 @@ include_directories(AFTER lib)
 
 # build executables
 add_executable(wjsonformat cli-utils/wjsonformat/main.cpp)
+add_executable(wjsoncompact cli-utils/wjsoncompact/main.cpp)

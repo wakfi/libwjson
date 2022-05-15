@@ -1,47 +1,34 @@
-#ifndef PRINTER_H
-#define PRINTER_H
-
-#include <iostream>
-#include <string>
+// Since this declares a definition of the Printer class, we need to typeguard it generically
+#ifndef PRINTER_CPP
+#define PRINTER_CPP
 
 // libwjson core modules
-#include <core/token.h>
-#include <core/ast.h>
+#include <printer/printer.h>
 
 
-class Printer : public Visitor
-{
-public:
-	// constructors
-	Printer(std::ostream& output_stream)
-	: out(output_stream), indent_size(1), indent_char('\t') {}
+// constructors
+Printer::Printer(std::ostream& output_stream)
+: out(output_stream), indent_size(1), indent_char('\t') {}
 
-	Printer(std::ostream& output_stream, const int& indent)
-	: out(output_stream), indent_size(indent), indent_char(' ') {}
+Printer::Printer(std::ostream& output_stream, const int& indent)
+: out(output_stream), indent_size(indent), indent_char(' ') {}
 
-	Printer(std::ostream& output_stream, const int& indent_width, const char& indent_character)
-	: out(output_stream), indent_size(indent_width), indent_char(indent_character) {}
+Printer::Printer(std::ostream& output_stream, const int& indent_width, const char& indent_character)
+: out(output_stream), indent_size(indent_width), indent_char(indent_character) {}
 
 
-	// top-level
-	void visit(JSONDocument& node);
-	void visit(JSON& node);
-	void visit(Record& node);
-	void visit(RValue& node);
-	void visit(SimpleRValue& node);
-	void visit(Array& node);
+// Indent managers
+void Printer::inc_indent() {
+	curr_indent += indent_size;
+}
 
-private:
-	const int indent_size;
-	const char indent_char;
+void Printer::dec_indent() {
+	curr_indent -= indent_size;
+}
 
-	std::ostream& out;
-	int curr_indent = 0;
-
-	void inc_indent() {curr_indent += indent_size;}
-	void dec_indent() {curr_indent -= indent_size;}
-	std::string get_indent() {return std::string(curr_indent, indent_char);}
-};
+std::string Printer::get_indent() {
+	return std::string(curr_indent, indent_char);
+}
 
 // top-level
 void Printer::visit(JSONDocument& node)
@@ -118,4 +105,4 @@ void Printer::visit(Array& node)
 }
 
 
-#endif
+#endif // ifndef PRINTER_CPP
