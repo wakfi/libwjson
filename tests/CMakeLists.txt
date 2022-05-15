@@ -1,4 +1,4 @@
-project(LIBWJSON_GTESTS)
+project(libwjson_gtests)
 
 cmake_minimum_required(VERSION 3.0)
 
