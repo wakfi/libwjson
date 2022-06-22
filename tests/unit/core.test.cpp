@@ -18,7 +18,7 @@
 #include <wjsoncompact/wjsoncompact.cpp>
 
 //----------------------------------------------------------------------
-// Constants & Macros
+// Constants & Macros & Helpers
 //----------------------------------------------------------------------
 
 #define TEST_FILES_DIR_PATH input_files
@@ -28,6 +28,13 @@
 EXPECT_EQ(false, input.fail())
 #define INPUT(file_name) ifstream input(TEST_FILE(file_name));\
 EXPECT_EQ(false, input.fail())
+
+Parser* parserForString(std::string str) {
+    std::stringstream* stream = new std::stringstream(str);
+    Lexer* lexer = new Lexer(*stream);
+    Parser* parser = new Parser(*lexer);
+    return parser;
+}
 
 //----------------------------------------------------------------------
 // Test Body Macros
@@ -115,6 +122,43 @@ TEST(WJSON_CORE, SimpleOneLine) {
     // including arrays and null. It's actually already in the minimalist format our printer outputs
     INPUT(simpleOneLine.json);
     TEST_AGAINST_PRINTER("{\"configurations\":[{\"name\":\"config name\",\"includePath\":[\"{workspaceFolder}/**\"],\"defines\":[],\"frameworkPath\":[\"/my/framework/path/is/very/long/nice/frameworks\"],\"compilerPath\":\"/usr/bin/compilername\",\"cStandard\":\"c17\",\"cppStandard\":\"c++17\",\"intelliSenseMode\":\"os-compiler-arch\",\"i need another key\":true,\"again\":null},false],\"empty object\":{},\"version\":4}");
+}
+
+TEST(WJSON_CORE, BadInput) {
+    // Should throw when given malformed input
+    JSONDocument ast_root_node;
+
+    Parser* parser = parserForString("{");
+    EXPECT_THROW(parser->parse(ast_root_node), JSONException);
+    delete parser;
+
+    parser = parserForString("{\"something\": 5, \"else\": {test}}");
+    EXPECT_THROW(parser->parse(ast_root_node), JSONException);
+    delete parser;
+
+    parser = parserForString("\"\":\"\"");
+    EXPECT_THROW(parser->parse(ast_root_node), JSONException);
+    delete parser;
+
+    parser = parserForString("");
+    EXPECT_THROW(parser->parse(ast_root_node), JSONException);
+    delete parser;
+
+    parser = parserForString("[[{{{}}}]]");
+    EXPECT_THROW(parser->parse(ast_root_node), JSONException);
+    delete parser;
+
+    parser = parserForString("{ \"a\": \"b\": \"c\" }");
+    EXPECT_THROW(parser->parse(ast_root_node), JSONException);
+    delete parser;
+
+    parser = parserForString("null");
+    EXPECT_NO_THROW(parser->parse(ast_root_node));
+    delete parser;
+
+    parser = parserForString("trues");
+    EXPECT_THROW(parser->parse(ast_root_node), JSONException);
+    delete parser;
 }
 
 // TODO: Add a test(s) that actually looks through the lexemes of something non-trivial
